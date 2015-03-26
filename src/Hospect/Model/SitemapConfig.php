@@ -6,13 +6,16 @@ namespace Hospect\Model;
  * @todo: more fields?
  * @todo validation
  */
-class Sitemap
+class SitemapConfig
 {
     /** @var  string */
     private $url;
 
     /** @var  string */
     private $changeFreq;
+
+    /** @var  int */
+    private $maxNestingLevel;
 
     /**
      * @return string
@@ -48,6 +51,25 @@ class Sitemap
     public function setUrl($url)
     {
         $this->url = $url;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getMaxNestingLevel()
+    {
+        return $this->maxNestingLevel;
+    }
+
+    /**
+     * @param int $maxNestingLevel
+     * @return $this
+     */
+    public function setMaxNestingLevel($maxNestingLevel)
+    {
+        $this->maxNestingLevel = $maxNestingLevel;
 
         return $this;
     }

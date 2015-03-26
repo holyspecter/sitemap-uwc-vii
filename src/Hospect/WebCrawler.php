@@ -2,7 +2,7 @@
 
 namespace Hospect;
 
-class UrlManager
+class WebCrawler
 {
 
 } 

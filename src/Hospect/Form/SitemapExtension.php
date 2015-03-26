@@ -12,7 +12,7 @@ class SitemapExtension extends AbstractExtension
     protected function loadTypes()
     {
         return [
-            new SitemapType(),
+            new SitemapConfigType(),
         ];
     }
 } 

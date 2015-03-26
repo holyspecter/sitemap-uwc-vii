@@ -2,12 +2,12 @@
 
 namespace Hospect\Form;
 
-use Hospect\Model\Sitemap;
+use Hospect\Model\SitemapConfig;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class SitemapType extends AbstractType
+class SitemapConfigType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -17,7 +17,7 @@ class SitemapType extends AbstractType
         $builder
             ->add('url', 'url')
             ->add('changeFreq', 'choice', [
-                'choices' => Sitemap::getChangeFreqs(),
+                'choices' => SitemapConfig::getChangeFreqs(),
             ])
         ;
     }
@@ -28,7 +28,7 @@ class SitemapType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Sitemap::class,
+            'data_class' => SitemapConfig::class,
         ]);
     }
 
