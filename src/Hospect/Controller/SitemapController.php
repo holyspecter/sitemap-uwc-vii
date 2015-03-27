@@ -2,6 +2,7 @@
 
 namespace Hospect\Controller;
 
+use Hospect\SitemapBuilder;
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -13,12 +14,19 @@ class SitemapController
     /** @var \Twig_Environment  */
     private $renderer;
 
+    /** @var SitemapBuilder  */
     private $sitemapBuilder;
 
-    public function __construct(FormFactory $formFactory, \Twig_Environment $renderer)
+    /**
+     * @param FormFactory       $formFactory
+     * @param \Twig_Environment $renderer
+     * @param SitemapBuilder    $sitemapBuilder
+     */
+    public function __construct(FormFactory $formFactory, \Twig_Environment $renderer, SitemapBuilder $sitemapBuilder)
     {
         $this->formFactory = $formFactory;
         $this->renderer = $renderer;
+        $this->sitemapBuilder = $sitemapBuilder;
     }
 
     public function indexAction(Request $request)

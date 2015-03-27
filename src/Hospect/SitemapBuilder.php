@@ -11,7 +11,7 @@ class SitemapBuilder
 
     private $xmlBuilder;
 
-    public function __construct(LinksCollector $linksCollector, $xmlBuilder)
+    public function __construct(LinksCollector $linksCollector, $xmlBuilder = null) // @todo remove default
     {
         $this->linksCollector = $linksCollector;
         $this->xmlBuilder     = $xmlBuilder;
@@ -20,9 +20,11 @@ class SitemapBuilder
 
     public function createSitemap(SitemapConfig $sitemapConfig)
     {
-        $this->linksCollector->setMaxNestingLevel($sitemapConfig->getMaxNestingLevel());
+//        $this->linksCollector->setMaxNestingLevel($sitemapConfig->getMaxNestingLevel()); // @todo uncomment when form will be ready
 
         $links = $this->linksCollector->getAllUniqueLinks($sitemapConfig->getUrl(), 1);
+
+        var_dump($links); die;
 
         return $this->xmlBuilder->buildXml($links, $sitemapConfig);
     }

@@ -20,10 +20,30 @@ $app['form.extensions'] = $app->extend('form.extensions', function ($extensions)
     return $extensions;
 });
 
+// @todo move service definitions to dedicated file
 
-// todo not working
+$app['http_client'] = function () {
+    return new \Guzzle\Http\Client();
+};
+
+$app['web_crawler'] = function () use ($app) {
+    return new \Hospect\WebCrawler($app['http_client']);
+};
+
+$app['links_collector'] = function () use ($app) {
+    return new \Hospect\LinksCollector($app['web_crawler']);
+};
+
+$app['xml_builder'] = function () use ($app) {
+    // @todo implement
+};
+
+$app['sitemap.builder'] = function () use ($app) {
+    return new \Hospect\SitemapBuilder($app['links_collector']); // @todo inject xmlBuilder
+};
+
 $app['sitemap.controller'] = function () use ($app) {
-    return new \Hospect\Controller\SitemapController($app['form.factory'], $app['twig']);
+    return new \Hospect\Controller\SitemapController($app['form.factory'], $app['twig'], $app['sitemap.builder']);
 };
 
 $app->match('/', 'sitemap.controller:indexAction');

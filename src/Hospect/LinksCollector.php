@@ -11,7 +11,10 @@ class LinksCollector
     /** @var array  */
     private $links = [];
 
-    public function __construct($webCrawler)
+    /**
+     * @param WebCrawler $webCrawler
+     */
+    public function __construct(WebCrawler $webCrawler)
     {
         $this->webCrawler = $webCrawler;
     }
@@ -31,7 +34,6 @@ class LinksCollector
      */
     public function getAllUniqueLinks($url, $currentLevel)
     {
-        // @todo implement
         $links = $this->webCrawler->getLinks($url);
         foreach ($links as $link) {
             if (! in_array($link, $this->links)) {
