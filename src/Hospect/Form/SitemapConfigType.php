@@ -19,6 +19,9 @@ class SitemapConfigType extends AbstractType
             ->add('changeFreq', 'choice', [
                 'choices' => SitemapConfig::getChangeFreqs(),
             ])
+            ->add('maxNestingLevel', 'choice', [
+                'choices' => SitemapConfig::getNestingLevels(),
+            ])
         ;
     }
 

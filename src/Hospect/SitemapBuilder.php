@@ -20,7 +20,7 @@ class SitemapBuilder
 
     public function createSitemap(SitemapConfig $sitemapConfig)
     {
-//        $this->linksCollector->setMaxNestingLevel($sitemapConfig->getMaxNestingLevel()); // @todo uncomment when form will be ready
+        $this->linksCollector->setMaxNestingLevel($sitemapConfig->getMaxNestingLevel());
 
         $links = $this->linksCollector->getAllUniqueLinks($sitemapConfig->getUrl(), 1);
 
