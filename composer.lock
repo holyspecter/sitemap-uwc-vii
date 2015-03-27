@@ -191,12 +191,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/silexphp/Silex.git",
-                "reference": "e12be31a5aa9095500762d4035f9a1f112fa5761"
+                "reference": "3e2f70edd9c56c7094ea5902ef4900c392a1aec2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/silexphp/Silex/zipball/e12be31a5aa9095500762d4035f9a1f112fa5761",
-                "reference": "e12be31a5aa9095500762d4035f9a1f112fa5761",
+                "url": "https://api.github.com/repos/silexphp/Silex/zipball/3e2f70edd9c56c7094ea5902ef4900c392a1aec2",
+                "reference": "3e2f70edd9c56c7094ea5902ef4900c392a1aec2",
                 "shasum": ""
             },
             "require": {
@@ -270,7 +270,7 @@
             "keywords": [
                 "microframework"
             ],
-            "time": "2015-01-18 13:18:59"
+            "time": "2015-03-27 16:15:30"
         },
         {
             "name": "symfony/css-selector",
