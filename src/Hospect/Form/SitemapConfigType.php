@@ -6,6 +6,7 @@ use Hospect\Model\SitemapConfig;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class SitemapConfigType extends AbstractType
 {
@@ -15,12 +16,24 @@ class SitemapConfigType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('url', 'url')
+            ->add('url', 'url', [
+                'constraints' => [
+                    new Assert\NotBlank(),
+                    new Assert\Url(),
+                ],
+            ])
             ->add('changeFreq', 'choice', [
                 'choices' => SitemapConfig::getChangeFreqs(),
+                'constraints' => [
+                    new Assert\NotBlank(),
+                ],
             ])
             ->add('maxNestingLevel', 'choice', [
                 'choices' => SitemapConfig::getNestingLevels(),
+                'constraints' => [
+                    new Assert\NotBlank(),
+                    new Assert\LessThanOrEqual(4),
+                ],
             ])
         ;
     }

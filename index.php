@@ -13,6 +13,7 @@ $app
     ->register(new \Silex\Provider\LocaleServiceProvider())
     ->register(new \Silex\Provider\TranslationServiceProvider())
     ->register(new \Silex\Provider\SessionServiceProvider())
+    ->register(new \Silex\Provider\ValidatorServiceProvider())
 ;
 
 \Hospect\Dependencies::configure($app);
