@@ -4,9 +4,14 @@ namespace Hospect;
 
 class LinksCollector
 {
+    /** @var WebCrawler  */
     private $webCrawler;
 
+    /** @var int  */
     private $maxNestingLevel = 2;
+
+    /** @var  string */
+    private $host = '';
 
     /** @var array  */
     private $links = [];
@@ -28,15 +33,24 @@ class LinksCollector
     }
 
     /**
+     * @param string $host
+     */
+    public function setHost($host)
+    {
+        $this->host = $host;
+    }
+
+    /**
      * @param string $url
      * @param int    $currentLevel
      * @return array
      */
     public function getAllUniqueLinks($url, $currentLevel)
     {
-        $links = $this->webCrawler->getLinks($url);
+        $links = $this->webCrawler->getLinks($url, $this->host);
         foreach ($links as $link) {
-            if (! in_array($link, $this->links)) {
+
+            if ($this->shouldProcessLink($link)) {
                 $this->links[] = $link;
 
                 if ($currentLevel < $this->maxNestingLevel) {
@@ -46,5 +60,17 @@ class LinksCollector
         }
 
         return $this->links;
+    }
+
+    /**
+     * @param string $url
+     * @return bool
+     */
+    private function shouldProcessLink($url)
+    {
+        $parsedUrl = parse_url($url);
+        $linkHost = isset($parsedUrl['host']) ? $parsedUrl['host'] : null;
+
+        return (! $linkHost || $this->host === $linkHost) && ! in_array($url, $this->links);
     }
 } 

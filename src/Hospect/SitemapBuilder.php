@@ -9,23 +9,35 @@ class SitemapBuilder
     /** @var LinksCollector  */
     private $linksCollector;
 
-    private $xmlBuilder;
+    /** @var \Twig_Environment  */
+    private $renderer;
 
-    public function __construct(LinksCollector $linksCollector, $xmlBuilder = null) // @todo remove default
+    /**
+     * @param LinksCollector    $linksCollector
+     * @param \Twig_Environment $renderer
+     */
+    public function __construct(LinksCollector $linksCollector, \Twig_Environment $renderer)
     {
         $this->linksCollector = $linksCollector;
-        $this->xmlBuilder     = $xmlBuilder;
+        $this->renderer     = $renderer;
     }
 
-
+    /**
+     * @param SitemapConfig $sitemapConfig
+     * @return string
+     */
     public function createSitemap(SitemapConfig $sitemapConfig)
     {
         $this->linksCollector->setMaxNestingLevel($sitemapConfig->getMaxNestingLevel());
+        $this->linksCollector->setHost(parse_url($sitemapConfig->getUrl())['host']);
 
         $links = $this->linksCollector->getAllUniqueLinks($sitemapConfig->getUrl(), 1);
 
-        var_dump($links); die;
+//        var_dump($links); die;
 
-        return $this->xmlBuilder->buildXml($links, $sitemapConfig);
+        return $this->renderer->render('sitemap.xml.twig', [
+            'urls' => $links,
+            'sitemap' => $sitemapConfig,
+        ]);
     }
 } 

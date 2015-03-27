@@ -12,6 +12,7 @@ $app
     ])
     ->register(new \Silex\Provider\LocaleServiceProvider())
     ->register(new \Silex\Provider\TranslationServiceProvider())
+    ->register(new \Silex\Provider\SessionServiceProvider())
 ;
 
 \Hospect\Dependencies::configure($app);

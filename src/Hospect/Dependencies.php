@@ -40,11 +40,11 @@ class Dependencies
         };
 
         $app['sitemap.builder'] = function () use ($app) {
-            return new SitemapBuilder($app['links_collector']); // @todo inject xmlBuilder
+            return new SitemapBuilder($app['links_collector'], $app['twig']);
         };
 
         $app['sitemap.controller'] = function () use ($app) {
-            return new SitemapController($app['form.factory'], $app['twig'], $app['sitemap.builder']);
+            return new SitemapController($app);
         };
     }
 }

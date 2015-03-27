@@ -2,46 +2,54 @@
 
 namespace Hospect\Controller;
 
-use Hospect\SitemapBuilder;
+use Guzzle\Http\Exception\RequestException;
+use Silex\Application;
+use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class SitemapController
 {
     /** @var FormFactory  */
-    private $formFactory;
-
-    /** @var \Twig_Environment  */
-    private $renderer;
-
-    /** @var SitemapBuilder  */
-    private $sitemapBuilder;
+    private $app;
 
     /**
-     * @param FormFactory       $formFactory
-     * @param \Twig_Environment $renderer
-     * @param SitemapBuilder    $sitemapBuilder
+     * @param Application $app
      */
-    public function __construct(FormFactory $formFactory, \Twig_Environment $renderer, SitemapBuilder $sitemapBuilder)
+    public function __construct(Application $app)
     {
-        $this->formFactory = $formFactory;
-        $this->renderer = $renderer;
-        $this->sitemapBuilder = $sitemapBuilder;
+        $this->app = $app;
     }
 
+    /**
+     * @param Request $request
+     * @return Response
+     */
     public function indexAction(Request $request)
     {
-        $form = $this->formFactory->createBuilder('sitemap')->getForm();
+        /** @var Form $form */
+        $form = $this->app['form.factory']->createBuilder('sitemap')->getForm();
 
         if ($request->isMethod('POST')) {
             $form->handleRequest($request);
             if ($form->isValid()) {
-                return $this->sitemapBuilder->createSitemap($form->getData());
+                try {
+                    $sitemap = $this->app['sitemap.builder']->createSitemap($form->getData());
+
+                    $response = new Response($sitemap);
+                    $response->headers->set('Content-Type', 'text/xml');
+
+                    return $response;
+                } catch (RequestException $e) {
+                    $message = sprintf("Error occurred while parsing `%s`", $e->getRequest()->getUrl());
+                    $this->app['session']->getFlashBag()->add('error', $message);
+                }
             }
         }
 
-        return $this->renderer->render('index.html.twig', [
+        return new Response($this->app['twig']->render('index.html.twig', [
             'form' => $form->createView(),
-        ]);
+        ]));
     }
 } 
