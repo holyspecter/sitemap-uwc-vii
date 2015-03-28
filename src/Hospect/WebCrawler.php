@@ -3,7 +3,6 @@
 namespace Hospect;
 
 use Guzzle\Http\Client;
-use Guzzle\Http\Exception\RequestException;
 use Symfony\Component\DomCrawler\Crawler;
 
 class WebCrawler

@@ -2,10 +2,16 @@
 
 namespace Hospect;
 
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Validator;
+
 class LinksCollector
 {
     /** @var WebCrawler  */
     private $webCrawler;
+
+    /** @var Validator  */
+    private $validator;
 
     /** @var int  */
     private $maxNestingLevel = 2;
@@ -18,10 +24,12 @@ class LinksCollector
 
     /**
      * @param WebCrawler $webCrawler
+     * @param Validator  $validator
      */
-    public function __construct(WebCrawler $webCrawler)
+    public function __construct(WebCrawler $webCrawler, Validator $validator)
     {
         $this->webCrawler = $webCrawler;
+        $this->validator = $validator;
     }
 
     /**
@@ -47,9 +55,13 @@ class LinksCollector
      */
     public function getAllUniqueLinks($url, $currentLevel)
     {
-        $links = $this->webCrawler->getLinks($url, $this->host);
-        foreach ($links as $link) {
+        if (! $this->isValidUrl($url)) {
+            return $this->links;
+        }
 
+        $links = $this->webCrawler->getLinks($url, $this->host);
+
+        foreach ($links as $link) {
             if ($this->shouldProcessLink($link)) {
                 $this->links[] = $link;
 
@@ -60,6 +72,17 @@ class LinksCollector
         }
 
         return $this->links;
+    }
+
+    /**
+     * @param string $url
+     * @return bool
+     */
+    private function isValidUrl($url)
+    {
+        $errors = $this->validator->validateValue($url, new Assert\Url());
+
+        return count($errors) === 0;
     }
 
     /**

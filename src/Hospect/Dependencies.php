@@ -32,11 +32,7 @@ class Dependencies
         };
 
         $app['links_collector'] = function () use ($app) {
-            return new LinksCollector($app['web_crawler']);
-        };
-
-        $app['xml_builder'] = function () use ($app) {
-            // @todo implement
+            return new LinksCollector($app['web_crawler'], $app['validator']);
         };
 
         $app['sitemap.builder'] = function () use ($app) {
