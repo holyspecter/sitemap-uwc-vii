@@ -20,6 +20,4 @@ $app
 
 $app->match('/', 'sitemap.controller:indexAction');
 
-$app['debug'] = true; // todo remove
-
 $app->run();

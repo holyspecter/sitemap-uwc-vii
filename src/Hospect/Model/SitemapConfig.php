@@ -4,7 +4,6 @@ namespace Hospect\Model;
 
 /**
  * @todo: more fields?
- * @todo validation
  */
 class SitemapConfig
 {
