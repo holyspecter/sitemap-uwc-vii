@@ -36,8 +36,8 @@ class WebCrawler
 
         if ($response && $response->isSuccessful()) {
             $domCrawler = new Crawler($response->getBody(true));
-            $domCrawler->filter('a')->each(function (Crawler $crawler) use (&$links) {
-                $links[] = $crawler->attr('href');
+            $domCrawler->filter('a')->each(function (Crawler $crawler) use (&$links, $host) {
+                $links[] = $this->prepareUrl($crawler->attr('href'), $host);
             });
         }
 
@@ -53,7 +53,7 @@ class WebCrawler
     {
         $parsedUrl = parse_url($url);
         if (! isset($parsedUrl['host'])) {
-            return 'http://' . $host . $url;
+            return '/' === $url[0] ? 'http://'.$host.$url : 'http://'.$host.'/'.$url;
         }
 
         return $url;
