@@ -53,7 +53,10 @@ class WebCrawler
     {
         $parsedUrl = parse_url($url);
         if (! isset($parsedUrl['host'])) {
-            return '/' === $url[0] ? 'http://'.$host.$url : 'http://'.$host.'/'.$url;
+            return isset($url[0]) && '/' === $url[0]
+                ? 'http://'.$host.$url
+                : 'http://'.$host.'/'.$url
+            ;
         }
 
         return $url;
