@@ -28,11 +28,11 @@ class SitemapConfigType extends AbstractType
                     new Assert\NotBlank(),
                 ],
             ])
-            ->add('maxNestingLevel', 'choice', [
-                'choices' => SitemapConfig::getNestingLevels(),
+            ->add('maxNestingLevel', 'number', [
+                'data' => 1,
                 'constraints' => [
                     new Assert\NotBlank(),
-                    new Assert\LessThanOrEqual(4),
+                    new Assert\GreaterThan(0),
                 ],
             ])
         ;

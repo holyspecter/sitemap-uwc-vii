@@ -89,16 +89,4 @@ class SitemapConfig
             'never' => 'Never',
         ];
     }
-
-    /**
-     * @return array
-     */
-    public static function getNestingLevels()
-    {
-        return [
-            1 => 1,
-            2 => 2,
-            3 => 3,
-        ];
-    }
 }

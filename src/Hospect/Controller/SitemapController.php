@@ -3,6 +3,7 @@
 namespace Hospect\Controller;
 
 use Guzzle\Http\Exception\RequestException;
+use Hospect\Exception\LinksLimitExceededException;
 use Silex\Application;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormFactory;
@@ -44,6 +45,10 @@ class SitemapController
                 } catch (RequestException $e) {
                     $message = sprintf("Error occurred while parsing `%s`", $e->getRequest()->getUrl());
                     $this->app['session']->getFlashBag()->add('error', $message);
+                } catch (LinksLimitExceededException $e) {
+                    $this->app['session']->getFlashBag()->add('error', $e->getMessage());
+                } catch (\Exception $e) {
+                    $this->app['session']->getFlashBag()->add('error', "Something went wrong, we'll fix it ASAP.");
                 }
             }
         }

@@ -3,12 +3,18 @@
 namespace Hospect;
 
 use Guzzle\Http\Client;
+use Hospect\Exception\LinksLimitExceededException;
 use Symfony\Component\DomCrawler\Crawler;
 
 class WebCrawler
 {
+    const LINKS_LIMIT = 90;
+
     /** @var Client  */
     private $httpClient;
+
+    /** @var int  */
+    public $counter = 0;
 
     /**
      * @param Client  $httpClient
@@ -25,6 +31,8 @@ class WebCrawler
      */
     public function getLinks($url, $host)
     {
+        $this->checkLimit();
+
         $links = [];
         $response = null;
 
@@ -42,6 +50,14 @@ class WebCrawler
         }
 
         return $links;
+    }
+
+    private function checkLimit()
+    {
+        $this->counter++;
+        if ($this->counter > self::LINKS_LIMIT) {
+            throw new LinksLimitExceededException();
+        }
     }
 
     /**
