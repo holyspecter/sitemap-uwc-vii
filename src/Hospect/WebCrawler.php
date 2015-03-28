@@ -8,7 +8,7 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class WebCrawler
 {
-    const LINKS_LIMIT = 90;
+    const LINKS_LIMIT = 60;
 
     /** @var Client  */
     private $httpClient;
